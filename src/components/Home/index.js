@@ -1,7 +1,25 @@
 import './index.css';
 import { Form, TextArea, Button } from 'semantic-ui-react';
+import { useEffect, useState } from 'react';
 
 const Home = () =>{
+
+    const [listIdiomas, setList] = useState([]);
+
+    useEffect( () => {
+        const obtenerDatosIdiomas = async () => {
+            try {
+              const respuesta = await fetch('https://endpointtraductor-dev-fpfj.3.us-1.fl0.io/idiomas');
+              const datos = await respuesta.json();
+              setList(datos);
+            } catch (error) {
+              console.error('Error al obtener datos de idiomas:', error);
+            }
+          };
+      
+          obtenerDatosIdiomas();
+    }, [])
+
     return(
         <>
             <div className="container home-page">
@@ -18,6 +36,13 @@ const Home = () =>{
                         <Form.Field control={TextArea} placeholder='Escribe el texto a traducir..'/>
                         <select className="select-idioma">
                             <option>Por favor selecciona un idioma..</option>
+                            {
+                                listIdiomas.map( (idiomas) => {
+                                    return(
+                                        <option value={idiomas.id}>{idiomas.nombre}</option>
+                                    );
+                                })
+                            }
                         </select>
                         <Form.Field control={TextArea} placeholder='El resultado de la traducción..'/>
                         <Button color="orange" size="large">Traducir</Button>
