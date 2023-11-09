@@ -1,0 +1,41 @@
+.home-page{
+    background: rgb(223,221,255);
+    background: linear-gradient(90deg, rgba(223,221,255,1) 0%, rgba(0,212,255,1) 50%, rgba(0,0,255,1) 100%);    
+}
+
+.home-page{
+
+    display : flex;
+    flex-direction : row;
+
+    .text-zone{
+        
+        width: 50%;
+        padding: 15% 4%;
+
+        h1{
+            font-size: xx-large;
+            font-weight: bolder;
+        }
+
+        p{
+            font-size: x-large;
+            font-weight: lighter;
+        }
+    }
+
+    .traductor-zone{
+
+        width: 50%;
+        display: grid;
+        place-content: left;
+        padding: 13% 2%;
+        
+        .select-idioma{
+            height: 40px !important;
+            margin-bottom: 15px;
+            outline: none !important;
+        }
+    }
+
+}
