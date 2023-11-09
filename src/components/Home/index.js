@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 const Home = () =>{
 
     const [listIdiomas, setList] = useState([]);
-
+    
     useEffect( () => {
         const obtenerDatosIdiomas = async () => {
             try {
-              const respuesta = await fetch('https://endpointtraductor-dev-fpfj.3.us-1.fl0.io/idiomas');
+              const respuesta = await fetch(process.env.REACT_APP_APIKEY +'/idiomas');
               const datos = await respuesta.json();
               setList(datos);
             } catch (error) {
