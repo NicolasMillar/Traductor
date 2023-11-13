@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 const Home = () =>{
 
     const [listIdiomas, setList] = useState([]);
+    const [textEntrante, setTextEntrante] = useState();
+    const [selectIdioma, setSelectIdoma] = useState();
     
     useEffect( () => {
         const obtenerDatosIdiomas = async () => {
@@ -18,7 +20,15 @@ const Home = () =>{
           };
       
           obtenerDatosIdiomas();
-    }, [])
+    }, []);
+
+    const ObtenerIdioma = (idiomaSeleccionad) => {
+        setSelectIdoma(idiomaSeleccionad.target.value);
+    }
+
+    async function Traducir  () {
+        console.log("idIdioma: "+selectIdioma+ "Palabra Origen: "+textEntrante);
+    }
 
     return(
         <>
@@ -33,8 +43,8 @@ const Home = () =>{
                 </div>
                 <div className='traductor-zone'>
                     <Form>
-                        <Form.Field control={TextArea} placeholder='Escribe el texto a traducir..'/>
-                        <select className="select-idioma">
+                        <Form.Field control={TextArea} placeholder='Escribe el texto a traducir..' onChange={ (e) => setTextEntrante(e.target.value)}/>
+                        <select className="select-idioma" onChange={ObtenerIdioma}>
                             <option>Por favor selecciona un idioma..</option>
                             {
                                 listIdiomas.map( (idiomas) => {
@@ -45,7 +55,7 @@ const Home = () =>{
                             }
                         </select>
                         <Form.Field control={TextArea} placeholder='El resultado de la traducción..'/>
-                        <Button color="orange" size="large">Traducir</Button>
+                        <Button color="orange" size="large" onClick={Traducir}>Traducir</Button>
                     </Form>
                 </div>
             </div>
