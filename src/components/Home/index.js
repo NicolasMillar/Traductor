@@ -7,6 +7,7 @@ const Home = () =>{
     const [listIdiomas, setList] = useState([]);
     const [textEntrante, setTextEntrante] = useState();
     const [selectIdioma, setSelectIdoma] = useState();
+    const [traducción, setTraduccion] = useState();
     
     useEffect( () => {
         const obtenerDatosIdiomas = async () => {
@@ -27,7 +28,15 @@ const Home = () =>{
     }
 
     async function Traducir  () {
-        console.log("idIdioma: "+selectIdioma+ "Palabra Origen: "+textEntrante);
+        try {
+            const respuesta = await fetch(process.env.REACT_APP_APIKEY +'/buscar?id_idioma='+selectIdioma+'&origen='+textEntrante);
+            const datos = await respuesta.json();
+            const traduccionesUnicas = [...new Map(datos.map(item => [item.traduccion, item])).values()];
+            var traduccion = traduccionesUnicas.map(traduccion => traduccion.traduccion).join(', ');
+            setTraduccion(traduccion);
+        }catch(error){
+            console.error('Error al obtener datos de traducciones:', error);
+        }
     }
 
     return(
@@ -54,7 +63,9 @@ const Home = () =>{
                                 })
                             }
                         </select>
-                        <Form.Field control={TextArea} placeholder='El resultado de la traducción..'/>
+                        <Form.Field 
+                            control={TextArea} placeholder='El resultado de la traducción..' value={traducción}
+                        />
                         <Button color="orange" size="large" onClick={Traducir}>Traducir</Button>
                     </Form>
                 </div>
