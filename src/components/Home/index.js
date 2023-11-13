@@ -58,7 +58,7 @@ const Home = () =>{
                             {
                                 listIdiomas.map( (idiomas) => {
                                     return(
-                                        <option value={idiomas.id}>{idiomas.nombre}</option>
+                                        <option key={idiomas.id} value={idiomas.id}>{idiomas.nombre}</option>
                                     );
                                 })
                             }
