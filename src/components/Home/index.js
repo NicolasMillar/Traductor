@@ -30,7 +30,7 @@ const Home = () =>{
     async function Traducir  () {
         try {
             console.log(selectIdioma);
-            const respuesta = await fetch(process.env.REACT_APP_APIKEY +'/buscar?id_idioma='+selectIdioma+'&origen='+textEntrante);
+            const respuesta = await fetch('https://endpointtraductor-dev-fpfj.3.us-1.fl0.io/buscar?id_idioma='+selectIdioma+'&origen='+textEntrante);
             const datos = await respuesta.json();
             const traduccionesUnicas = [...new Map(datos.map(item => [item.traduccion, item])).values()];
             var traduccion = traduccionesUnicas.map(traduccion => traduccion.traduccion).join(', ');
