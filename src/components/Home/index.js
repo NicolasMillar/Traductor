@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import { Form, TextArea, Button } from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
 
