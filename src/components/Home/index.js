@@ -8,6 +8,7 @@ const Home = () =>{
     const [textEntrante, setTextEntrante] = useState();
     const [selectIdioma, setSelectIdoma] = useState();
     const [traducción, setTraduccion] = useState();
+    const [error, setError] = useState();
     
     useEffect( () => {
         const obtenerDatosIdiomas = async () => {
@@ -19,7 +20,6 @@ const Home = () =>{
               console.error('Error al obtener datos de idiomas:', error);
             }
           };
-      
           obtenerDatosIdiomas();
     }, []);
 
@@ -29,13 +29,14 @@ const Home = () =>{
 
     async function Traducir  () {
         try {
+            console.log(selectIdioma);
             const respuesta = await fetch(process.env.REACT_APP_APIKEY +'/buscar?id_idioma='+selectIdioma+'&origen='+textEntrante);
             const datos = await respuesta.json();
             const traduccionesUnicas = [...new Map(datos.map(item => [item.traduccion, item])).values()];
             var traduccion = traduccionesUnicas.map(traduccion => traduccion.traduccion).join(', ');
             setTraduccion(traduccion);
-        }catch(error){
-            console.error('Error al obtener datos de traducciones:', error);
+        }catch(problema){
+            setError('Error al obtener datos de traducciones:' + problema);
         }
     }
 
@@ -63,9 +64,8 @@ const Home = () =>{
                                 })
                             }
                         </select>
-                        <Form.Field 
-                            control={TextArea} placeholder='El resultado de la traducción..' value={traducción}
-                        />
+                        <Form.Field control={TextArea} placeholder='El resultado de la traducción..' value={traducción}/>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
                         <Button color="orange" size="large" onClick={Traducir}>Traducir</Button>
                     </Form>
                 </div>
