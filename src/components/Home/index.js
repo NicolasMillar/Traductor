@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 const Home = () =>{
 
     const [listIdiomas, setList] = useState([]);
-    const [textEntrante, setTextEntrante] = useState();
-    const [selectIdioma, setSelectIdoma] = useState();
+    const [textEntrante, setTextEntrante] = useState("");
+    const [selectIdioma, setSelectIdoma] = useState("");
     const [traducción, setTraduccion] = useState();
     const [error, setError] = useState();
     
@@ -32,9 +32,15 @@ const Home = () =>{
             console.log(selectIdioma);
             const respuesta = await fetch('https://endpointtraductor-dev-fpfj.3.us-1.fl0.io/buscar?id_idioma='+selectIdioma+'&origen='+textEntrante);
             const datos = await respuesta.json();
-            const traduccionesUnicas = [...new Map(datos.map(item => [item.traduccion, item])).values()];
-            var traduccion = traduccionesUnicas.map(traduccion => traduccion.traduccion).join(', ');
-            setTraduccion(traduccion);
+            if (!respuesta.ok) {
+                console.log(datos.error);
+                setError(datos.error);
+            }else{
+                const traduccionesUnicas = [...new Map(datos.map(item => [item.traduccion, item])).values()];
+                var traduccion = traduccionesUnicas.map(traduccion => traduccion.traduccion).join(', ');
+                setTraduccion(traduccion);
+            }
+            
         }catch(problema){
             setError('Error al obtener datos de traducciones:' + problema);
         }
